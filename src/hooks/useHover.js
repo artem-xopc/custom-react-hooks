@@ -1,0 +1,26 @@
+import { useEffect, useState } from "react";
+
+export function useHover(ref) {
+  const [isHovehing, setHovering] = useState(false);
+
+  const on = () => setHovering(true);
+  const off = () => setHovering(false);
+
+  useEffect(() => {
+    if (!ref.current) return;
+
+    const node = ref.current;
+
+    node.addEventListener("mouseenter", on);
+    node.addEventListener("mousemove", on);
+    node.addEventListener("mouseleave", off);
+
+    return function () {
+      node.removeEventListener("mouseenter", on);
+      node.removeEventListener("mousemove", on);
+      node.removeEventListener("mouseleave", off);
+    };
+  }, []);
+
+  return isHovehing;
+}
